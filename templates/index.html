@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Urine Strip Color Identifier</title>
+</head>
+<body>
+    <h1>Urine Strip Color Identifier</h1>
+    <input type="file" id="fileInput" accept="image/*">
+    <button onclick="uploadImage()">Upload</button>
+
+    <script>
+    function uploadImage() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        fetch('/api/identify_colors', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => displayResults(data))
+        .catch(error => console.error('Error:', error));
+    }
+
+    function displayResults(result) {
+        // Display the results on the webpage (You can customize this based on your design)
+        const resultElement = document.createElement('pre');
+        resultElement.textContent = JSON.stringify(result, null, 2);
+        document.body.appendChild(resultElement);
+    }
+</script>
+
+</body>
+</html>
